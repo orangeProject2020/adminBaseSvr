@@ -2,7 +2,8 @@ export default [{
   id: "21",
   name: "website",
   title: "网站管理",
-  url: "http://127.0.0.1:10012"
+  // url: "http://127.0.0.1:10012"
+  url: "http://adminWebsite.demo.jianpiane.com"
 }, {
   id: "22",
   name: "miniApp",

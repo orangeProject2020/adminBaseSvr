@@ -85,5 +85,9 @@ module.exports = {
 
   router: {
     // middleware: 'auth'
+  },
+
+  env: {
+    nodeEnv: process.env.NODE_ENV || 'development'
   }
 }

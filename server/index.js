@@ -34,7 +34,7 @@ async function start() {
   // app.set('trust proxy', 1)
   app.use(
     session({
-      name: 'adminClient',
+      name: 'adminBaseClient',
       resave: true,
       saveUninitialized: false,
       cookie: {
@@ -76,7 +76,7 @@ async function start() {
     let token = req.session.token || ''
     console.log('/auth token: ', token)
     if (method.toLowerCase() === 'get') {
-      if (url.indexOf('.js') > -1 || url.indexOf('.css') > -1 || url.indexOf('.ico') > -1 || url.indexOf('webpack') > -1 || url.indexOf('/.map') > -1) {
+      if (url.indexOf('.js') > -1 || url.indexOf('.css') > -1 || url.indexOf('.ico') > -1 || url.indexOf('webpack') > -1 || url.indexOf('/.map') > -1 || url.indexOf('_nuxt') > -1) {
         next()
       } else {
         console.log('/auth url:', url)

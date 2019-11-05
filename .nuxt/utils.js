@@ -133,7 +133,7 @@ export async function setContext (app, context) {
       payload: context.payload,
       error: context.error,
       base: '/',
-      env: {"nodeEnv":"production"}
+      env: {"nodeEnv":"production","apiDomain":"http://admin.demo.jianpiane.com","apiDomainLocal":"http://127.0.0.1:10011"}
     }
     // Only set once
     if (context.req) {

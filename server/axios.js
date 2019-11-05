@@ -5,7 +5,7 @@ import axios from 'axios'
 export default {
   async post(url, data) {
     console.log('axios node_env:', process.env.nodeEnv)
-    let domain = (process.env.nodeEnv == 'production') ? 'http://demo.admin.jianpiane.com' : 'http://127.0.0.1:10011'
+    let domain = (process.env.nodeEnv == 'production') ? process.env.apiDomain : process.env.apiDomainLocal
     console.log('axios domain:', domain)
     url = domain + url
     console.log('axios url: ', url)

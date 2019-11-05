@@ -88,6 +88,8 @@ module.exports = {
   },
 
   env: {
-    nodeEnv: process.env.NODE_ENV || 'development'
+    nodeEnv: process.env.NODE_ENV || 'development',
+    apiDomain: 'http://admin.demo.jianpiane.com',
+    apiDomainLocal: 'http://127.0.0.1:10011'
   }
 }

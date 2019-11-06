@@ -1,1 +1,0 @@
-exports.ids=[3],exports.modules={90:function(t,e,r){"use strict";r.r(e);r(13);var c={components:{},async fetch({store:t,params:e}){},methods:{}},n=r(3);var component=Object(n.a)(c,(function(){var t=this.$createElement;return(this._self._c||t)("div",{},[this._ssrNode('<h3 class="text-3xl">欢迎使用</h3>')])}),[],!1,(function(t){}),null,"5e09c97e");e.default=component.exports}};

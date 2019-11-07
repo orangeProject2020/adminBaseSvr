@@ -22,6 +22,7 @@
 
 <script>
 import SparkMD5 from "spark-md5";
+import axios from "./../server/axios";
 
 export default {
   data() {
@@ -36,7 +37,9 @@ export default {
       accpetTypes: {
         "application/zip": "zip",
         "image/jpeg": "jpg"
-      }
+      },
+      uploadStep: 0,
+      slices: []
     };
   },
   methods: {
@@ -87,7 +90,10 @@ export default {
             "/",
             chunks
           );
-          spark.append(e.target.result); // Append array buffer
+          let slice = e.target.result;
+          spark.append(slice); // Append array buffer
+          // 加载文件切片
+          that.slices[that.currentChunk] = slice;
           that.currentChunk++;
 
           if (that.currentChunk < chunks) {
@@ -118,9 +124,103 @@ export default {
         loadNext();
       });
     },
-    uploadFileSlice() {
+    async getFileUploadedInfo(md5) {
+      let ret = await axios.post("/api/utils/file/getItem", { md5: md5 });
+      console.log("getFileUploadedInfo ret", ret);
+      if (ret.code === 0 && ret.data) {
+        this.uploadStep = ret.data.step || 0;
+      } else {
+        this.uploadStep = 0;
+      }
+      console.log("getFileUploadedInfo this.uploadStep:", this.uploadStep);
+      return ret;
+    },
+    fileSliceAction(file, step = 0, cb) {
+      let blobSlice =
+        File.prototype.slice ||
+        File.prototype.mozSlice ||
+        File.prototype.webkitSlice;
+      let start = step * this.chunkSize;
+      let end =
+        start + this.chunkSize >= file.size
+          ? file.size
+          : start + this.chunkSize;
+
+      let reader = new FileReader();
+      reader.readAsArrayBuffer(blobSlice.call(file, start, end));
+      return new Promise((r, j) => {
+        reader.addEventListener("load", function(e) {
+          //每10M切割一段,这里只做一个切割演示，实际切割需要循环切割，
+          let slice = e.target.result;
+          r(slice);
+        });
+        reader.addEventListener("error", function() {
+          j(null);
+        });
+      });
+    },
+    async uploadFileSlice() {
       // 分片上传
       console.log("uploadFileSlice start ...");
+      let step = this.uploadStep || 0;
+      let file = this.fileObject;
+      console.log("uploadFileSlice file:", file);
+      try {
+        let params = {
+          md5: this.fileMd5,
+          size: file.size,
+          type: file.type,
+          ext: file.ext,
+          step: step,
+          chunks: this.chunks
+        };
+
+        for (let index = step; index < this.chunks; index++) {
+          console.log("uploadFileSlice step:", step);
+          let slice = await this.fileSliceAction(file, step);
+          console.log("uploadFileSlice slice", slice);
+          params.step = index;
+          let retUp = await this.uploadFileRequest(slice, params);
+          console.log("uploadFileSlice step retUp", step, retUp);
+          return retUp;
+        }
+      } catch (err) {
+        return null;
+      }
+    },
+    uploadFileRequest(slice, params) {
+      console.log("uploadFileRequest params", params);
+      return new Promise((r, j) => {
+        var data = new FormData();
+        data.append("file", slice);
+
+        var xhr = new XMLHttpRequest();
+        xhr.withCredentials = true;
+
+        xhr.addEventListener("readystatechange", function() {
+          if (this.readyState === 4) {
+            console.log("uploadFileRequest responseText", this.responseText);
+            // console.log(this.responseText);
+            r(this.responseText);
+          }
+        });
+
+        let url =
+          process.env.nodeEnv == "production"
+            ? process.env.apiHttpHost
+            : process.env.apiHttpHostLocal;
+        url += "/upload/slice";
+        url += "?md5=" + params.md5;
+        url += "&size=" + params.size;
+        url += "&type=" + params.type;
+        url += "&ext=" + params.ext;
+        url += "&step=" + params.step;
+        url += "&chunks=" + params.chunks;
+        console.log("uploadFileRequest url", url);
+        xhr.open("POST", url);
+
+        xhr.send(data);
+      });
     }
   },
   created: function() {
@@ -146,6 +246,7 @@ export default {
       try {
         let fileMd5 = await that.readFileMd5(file);
         that.fileMd5 = fileMd5;
+        await that.getFileUploadedInfo(fileMd5);
       } catch (err) {
         this.$alert("校验文件失败");
       }

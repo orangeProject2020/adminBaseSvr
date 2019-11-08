@@ -2,7 +2,7 @@
   <div class>
     <h3 class="text-3xl">欢迎使用</h3>
     <div>
-      <Uploader></Uploader>
+      <Uploader @uploadSuccess="uploadSuccess" accpet-type-limit="mp4"></Uploader>
     </div>
   </div>
 </template>
@@ -16,7 +16,11 @@ export default {
     Uploader
   },
   async fetch({ store, params }) {},
-  methods: {}
+  methods: {
+    uploadSuccess(data) {
+      console.log("uploadSuccess data", data);
+    }
+  }
 };
 </script>
 

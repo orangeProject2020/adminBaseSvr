@@ -8,6 +8,9 @@
 export default {
   data() {
     return {};
+  },
+  created() {
+    let url = this.$store.state.appUrl;
   }
   // async fetch({ store, params }) {
   //   // let ret = await store.dispatch("getConfig", params);

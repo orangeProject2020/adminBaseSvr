@@ -51,6 +51,11 @@
 import Axios from "./../server/axios";
 import apps from "./../config/apps";
 export default {
+  head() {
+    return {
+      title: "后台管理"
+    };
+  },
   data() {
     return {
       apps: apps

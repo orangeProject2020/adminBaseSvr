@@ -10,7 +10,13 @@
               <router-link :to="{path:'/'}">Dashborad</router-link>
             </span>
           </el-menu-item>
-          <el-submenu index="2">
+          <el-menu-item index="2">
+            <i class="el-icon-user"></i>
+            <span slot="title">
+              <router-link :to="{path:'/user'}">用户管理</router-link>
+            </span>
+          </el-menu-item>
+          <el-submenu index="3">
             <template slot="title">
               <i class="el-icon-setting"></i>
               <span>功能应用</span>
@@ -48,7 +54,7 @@
 </template>
 
 <script>
-import Axios from "./../server/axios";
+import Axios from "@/assets/js/axios";
 import apps from "./../config/apps";
 export default {
   head() {

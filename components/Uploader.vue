@@ -26,7 +26,7 @@
 
 <script>
 import SparkMD5 from "spark-md5";
-import axios from "./../server/axios";
+import axios from "@/assets/js/axios";
 
 export default {
   data() {

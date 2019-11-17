@@ -1,4 +1,4 @@
-import axios from './../server/axios';
+import axios from '@/assets/js/axios';
 
 export const state = () => ({
   token: '',

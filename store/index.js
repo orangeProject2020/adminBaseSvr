@@ -4,7 +4,8 @@ export const state = () => ({
   token: '',
   websiteName: "",
   appUrl: "",
-  apps: []
+  apps: [],
+  subNavMsgIndex: '0'
 })
 
 export const mutations = {
@@ -20,6 +21,9 @@ export const mutations = {
   },
   websiteAppsSet(state, data) {
     state.apps = data
+  },
+  subNavMsgIndexSet(state, data) {
+    state.subNavMsgIndex = data
   }
 }
 

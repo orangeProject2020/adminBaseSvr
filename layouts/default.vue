@@ -2,7 +2,7 @@
   <div>
     <el-container style="height:100%;">
       <el-aside width="240px" class="border-r">
-        <div class="p-4 h-24 text-3xl border-b">{{ $store.state.websiteName }} v0.1</div>
+        <div class="p-4 h-24 text-3xl border-b">v0.1</div>
         <el-menu default-active="1" style="border-right:none;">
           <el-menu-item index="1">
             <i class="el-icon-menu"></i>
@@ -16,7 +16,13 @@
               <router-link :to="{path:'/user'}">用户管理</router-link>
             </span>
           </el-menu-item>
-          <el-submenu index="3">
+          <el-menu-item index="3">
+            <i class="el-icon-message"></i>
+            <span slot="title">
+              <router-link :to="{path:'/msg/notice'}">消息管理</router-link>
+            </span>
+          </el-menu-item>
+          <el-submenu index="4">
             <template slot="title">
               <i class="el-icon-setting"></i>
               <span>功能应用</span>

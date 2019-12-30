@@ -4,14 +4,14 @@ export default [
   //   name: "website",
   //   title: "网站管理",
   //   url: (process.env.nodeEnv == 'production') ?
-  //     "http://website.admin.jianpiane.com" : "http://127.0.0.1:10012"
+  //     "http://website.admin.sunonenight.com" : "http://127.0.0.1:10012"
   // }, 
   {
     id: "22",
     name: "mall",
     title: "商城管理",
     url: (process.env.nodeEnv == 'production') ?
-      "http://mall.admin.jianpiane.com" : "http://127.0.0.1:10014"
+      "http://mall.admin.sunonenight.com" : "http://127.0.0.1:10014"
   }, {
     id: "23",
     name: "weixin",

@@ -1,6 +1,11 @@
 <template>
   <div>
     <el-table :data="listData.list">
+      <el-table-column label="ID">
+        <template slot-scope="scope">
+          <span>{{scope.row.id}}:{{scope.row.uuid}}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="昵称" prop="nickname"></el-table-column>
       <el-table-column label="手机" prop="mobile"></el-table-column>
       <el-table-column label="邮箱" prop="email"></el-table-column>
@@ -47,7 +52,7 @@ export default {
       listData: {
         list: [],
         page: 1,
-        limit: 1,
+        limit: 10,
         count: 0,
         search: ""
       }
